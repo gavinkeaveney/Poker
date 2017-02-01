@@ -1,7 +1,4 @@
-/**
- * Created by Gavin on 01/02/2017.
- */
-//package TBD;
+package Poker;
 
 public class PlayingCard {
     static public final char HEARTS = 'H';
