@@ -6,7 +6,7 @@ public class PlayingCard {
     static public final char CLUBS = 'C';
     static public final char SPADES = 'S';
 
-    private String cardType; // int or char?
+    private String cardType;
     private char suit;
     private int faceValue;
     private int gameValue;
