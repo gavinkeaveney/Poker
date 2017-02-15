@@ -26,7 +26,6 @@ public class DeckOfCards {
             deck.add(new PlayingCard(cardTypes[i], PlayingCard.HEARTS, i+1, currentValue));
             currentValue = i+2;
         }
-
         currentValue = 14;
         for (int i = 0; i< cardTypes.length; i++){
             deck.add(new PlayingCard(cardTypes[i], PlayingCard.DIAMONDS, i+1, currentValue));
