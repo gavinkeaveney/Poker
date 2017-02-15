@@ -51,41 +51,46 @@ public class HandOfCards {
 
     public String checkHand() {
 
-            if (isRoyalFlush()) {
-                return "Royal Flush";
-            } else if (isStraightFlush()) {
-                return "Straight Flush";
-            } else if (isFourOfAKind()) {
-                return "Four of a Kind";
-            } else if (isFullHouse()) {
-                return "Full House";
-            } else if (isFlush()) {
-                return "Flush";
-            } else if (isStraight()) {
-                return "Straight";
-            } else if (isThreeOfAKind()) {
-                return "Three of a Kind";
-            } else if (isTwoPair()) {
-                return "Two Pair";
-            } else if (isOnePair()) {
-                return "One Pair";
-            } else {
-                return "High Hand";
-            }
+        if (isRoyalFlush()) {
+            return "Royal Flush";
+        } else if (isStraightFlush()) {
+            return "Straight Flush";
+        } else if (isFourOfAKind()) {
+            return "Four of a Kind";
+        } else if (isFullHouse()) {
+            return "Full House";
+        } else if (isFlush()) {
+            return "Flush";
+        } else if (isStraight()) {
+            return "Straight";
+        } else if (isThreeOfAKind()) {
+            return "Three of a Kind";
+        } else if (isTwoPair()) {
+            return "Two Pair";
+        } else if (isOnePair()) {
+            return "One Pair";
+        } else {
+            return "High Hand";
+        }
     }
 
-/* Public method to set hand to test checkHand
-*
-*    public void setHand(int index, PlayingCard card) {
-*        hand.add(index, card);
-*    }
-*/
+    public int getGameValue() {
+
+        return 0;
+    }
+
+// Public method to set hand to test checkHand
+
+    public void setHand(int index, PlayingCard card) {
+        hand.add(index, card);
+    }
+
 
     // CHECKS HAND FUNCTIONS BELOW
 
 
     private boolean isRoyalFlush() {
-        if (hand.get(0).getGameValue()==14 && isStraightFlush()) {
+        if (hand.get(0).getGameValue()==14 && hand.get(1).getGameValue()==10 && isStraightFlush()) {
             return true;
         } else {
             return false;
@@ -129,11 +134,13 @@ public class HandOfCards {
         return false;
     }
     private boolean isStraight() {
-        if (hand.get(0).getGameValue() - hand.get(1).getGameValue() == 1) {
+        if (hand.get(0).getGameValue() == 14 && (hand.get(1).getGameValue() - hand.get(2).getGameValue() == 1) && (hand.get(2).getGameValue() - hand.get(3).getGameValue() == 1) && (hand.get(3).getGameValue() - hand.get(4).getGameValue() == 1)) {
+            return true;
+        } else if (hand.get(0).getGameValue() - hand.get(1).getGameValue() == 1) {
             if (hand.get(1).getGameValue() - hand.get(2).getGameValue() == 1) {
                 if (hand.get(2).getGameValue() - hand.get(3).getGameValue() == 1) {
                     if (hand.get(3).getGameValue() - hand.get(4).getGameValue() == 1) {
-                        return true; // Checks cards in descending order
+                        return true; // Checks cards in descending order. Takes account of Ace low straight
                     }
                 }
             }
