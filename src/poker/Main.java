@@ -10,20 +10,11 @@ public class Main {
 
 
         dealDeck.reset();
-        /*
-        for (int i=0; i<52; i++) {
-            if (i % 2 == 0) {
-                hand.add(dealDeck.dealNext());
-            }
-            else {
-                dealDeck.returnCard(dealDeck.dealNext()); // return every second card
-            }
-        }
-        */
-        HandOfCards hand = new HandOfCards(dealDeck);
-        HandOfCards testHand = new HandOfCards(dealDeck);
 
-/* Hand setter and test output
+        HandOfCards hand = new HandOfCards(dealDeck);
+
+/*  Hand setter and test output
+*        HandOfCards testHand = new HandOfCards(dealDeck);
 *
 *        testHand.setHand(0, new PlayingCard("A", PlayingCard.HEARTS, 1, 14));
 *        testHand.setHand(1, new PlayingCard("K", PlayingCard.CLUBS, 13, 13));

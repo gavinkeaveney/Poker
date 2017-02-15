@@ -28,7 +28,6 @@ public class HandOfCards {
             hand.add(deckForHand.dealNext());
         }
         sort();
-
     }
 
     private void sort() {
@@ -39,7 +38,6 @@ public class HandOfCards {
                 }
             }
         }
-
     }
 
     public String toString() {

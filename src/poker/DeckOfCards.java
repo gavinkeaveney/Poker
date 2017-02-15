@@ -1,11 +1,7 @@
 package poker;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-/**
- * Created by Gavin on 01/02/2017.
- */
 public class DeckOfCards {
     private ArrayList<PlayingCard> deck = new ArrayList<>();
     private ArrayList<PlayingCard> returned = new ArrayList<>();
@@ -51,7 +47,6 @@ public class DeckOfCards {
     void shuffle() {
 
         ArrayList<PlayingCard> temp = new ArrayList<>();
-//        Random random1 = new Random();
 
         while(!deck.isEmpty()) {
             int pos1=(int)(Math.random()*deck.size());
@@ -68,8 +63,6 @@ public class DeckOfCards {
         PlayingCard toDeal = new PlayingCard();
 
         toDeal = deck.get(deal);
-//        deck.remove(deal);
-
         return toDeal;
     }
 
