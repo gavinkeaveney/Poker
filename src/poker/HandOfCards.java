@@ -1,5 +1,7 @@
 package poker;
 
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -20,6 +22,7 @@ public class HandOfCards {
     private static int TWO_PAIRS_WEIGHT = 2500000; // 2.5 million
     private static int ONE_PAIR_WEIGHT = 1400000; // 1.4 million
     private static int HIGH_HAND_WEIGHT = 1;
+    private static int RETURN_WEIGHT = 5;
 
     public ArrayList<PlayingCard> hand = new ArrayList<>();
     private DeckOfCards deckForHand = new DeckOfCards();
@@ -134,9 +137,9 @@ public class HandOfCards {
             return true; // 1=2=3,4=5
         } else {
             return false;
-        } // if statements quite long?
+        }
     }
-    private boolean isFlush() { // Suit ordered sort?
+    private boolean isFlush() {
         if (hand.get(0).getSuit() == hand.get(1).getSuit()) {
             if (hand.get(1).getSuit() == hand.get(2).getSuit()) {
                 if (hand.get(2).getSuit() == hand.get(3).getSuit()) {
@@ -270,7 +273,7 @@ public class HandOfCards {
 
         }else if (isHighHand) {
 
-           return highHandValue();
+            return highHandValue();
 
         }else {
             return -1;
@@ -312,13 +315,13 @@ public class HandOfCards {
                     if (hand.get(cardPosition).getGameValue() == hand.get(cardPosition+1).getGameValue()) {
                         return 0;
                     } else {
-                        return 100 - (hand.get(cardPosition).getGameValue() * 5);
+                        return 100 - (hand.get(cardPosition).getGameValue() * RETURN_WEIGHT);
                     }
                 } else if (cardPosition == 4) {
                     if (hand.get(cardPosition).getGameValue() == hand.get(cardPosition-1).getGameValue()) {
                         return 0;
                     } else {
-                        return 100 - (hand.get(cardPosition).getGameValue() * 5);
+                        return 100 - (hand.get(cardPosition).getGameValue() * RETURN_WEIGHT);
                     }
                 } else if (hand.get(cardPosition).getGameValue() == hand.get(cardPosition-1).getGameValue() ||
                         hand.get(cardPosition).getGameValue() == hand.get(cardPosition+1).getGameValue()) { //cardPosition 1,2,3
@@ -326,19 +329,78 @@ public class HandOfCards {
                     return 0;
                 } else {
 
-                    return 100 - (hand.get(cardPosition).getGameValue() * 5);
+                    return 100 - (hand.get(cardPosition).getGameValue() * RETURN_WEIGHT);
                 }
             } else {
                 // high hand
                 // return based on card rank
+                // checks for other POTENTIAL hands (i.e. busted flush)
 
-                return 100 - (hand.get(cardPosition).getGameValue() * 5);
+                if (checkBustedFlush()) {
+                    if (cardPosition == 0) { // require 3 checks, depending on card position
+                        if ((hand.get(0).getSuit() != hand.get(1).getSuit() && hand.get(0).getSuit() != hand.get(4).getSuit())) {
+                            return 100;
 
+                        } else {
+                            return 0;
+                        }
+                    } else if (cardPosition != 0 && cardPosition != 4) {
+                        if (hand.get(cardPosition).getSuit() != hand.get(cardPosition + 1).getSuit()
+                                && (hand.get(cardPosition).getSuit() != hand.get(cardPosition - 1).getSuit())) {
+                            return 100;
+
+                        } else {
+                            return 0;
+                        }
+                    } else if (cardPosition == 4) {
+                        if ((hand.get(4).getSuit() != hand.get(1).getSuit() && hand.get(4).getSuit() != hand.get(3).getSuit())) {
+                            return 100;
+
+                        } else {
+                            return 0;
+                        }
+                    } else{
+                        return 0;
+                    }
+                } else {
+
+                    return 100 - (hand.get(cardPosition).getGameValue() * RETURN_WEIGHT);
+                }
             }
         } else {
 
             return 0;
         }
+    }
+
+    private boolean checkBustedFlush() {
+        int suitCount = 0;
+
+        if (hand.get(0).getSuit() == hand.get(1).getSuit()) {
+            suitCount++;
+        }
+        if (hand.get(0).getSuit() == hand.get(2).getSuit()) {
+            suitCount++;
+        }
+        if (hand.get(0).getSuit() == hand.get(3).getSuit()) {
+            suitCount++;
+        }
+        if (hand.get(0).getSuit() == hand.get(4).getSuit()) {
+            suitCount++;
+        }
+
+        if (suitCount == 0 || suitCount == 3) {
+            // 0 - first card is odd
+            // 3 - another card is odd
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean checkBustedStraight() {
+        // to be implemented
+        return false;
     }
 
     private int highHandValue() {
