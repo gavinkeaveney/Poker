@@ -315,7 +315,7 @@ public class HandOfCards {
                     if (hand.get(cardPosition).getGameValue() == hand.get(cardPosition+1).getGameValue()) {
                         return 0;
                     } else {
-                        return 100 - (hand.get(cardPosition).getGameValue() * RETURN_WEIGHT);
+                        return 100 - (hand.get(cardPosition).getGameValue() * RETURN_WEIGHT); // RETURN_WEIGHT = 5
                     }
                 } else if (cardPosition == 4) {
                     if (hand.get(cardPosition).getGameValue() == hand.get(cardPosition-1).getGameValue()) {
@@ -387,6 +387,25 @@ public class HandOfCards {
         }
         if (hand.get(0).getSuit() == hand.get(4).getSuit()) {
             suitCount++;
+        }
+        if (suitCount == 0) {
+            if (hand.get(1).getSuit() == hand.get(2).getSuit()) {
+                suitCount++;
+            }
+            if (hand.get(1).getSuit() == hand.get(3).getSuit()) {
+                suitCount++;
+            }
+            if (hand.get(1).getSuit() == hand.get(4).getSuit()) {
+                suitCount++;
+            }
+        }
+        if (suitCount == 0) {
+            if (hand.get(2).getSuit() == hand.get(3).getSuit()) {
+                suitCount++;
+            }
+            if (hand.get(2).getSuit() == hand.get(4).getSuit()) {
+                suitCount++;
+            }
         }
 
         if (suitCount == 0 || suitCount == 3) {

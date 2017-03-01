@@ -36,9 +36,9 @@ public class Main {
         // testHand2
         testHand2.setHand(0, new PlayingCard("A", PlayingCard.HEARTS, 1, 14));
         testHand2.setHand(1, new PlayingCard("K", PlayingCard.CLUBS, 13, 13));
-        testHand2.setHand(2, new PlayingCard("Q", PlayingCard.HEARTS, 12, 12));
-        testHand2.setHand(3, new PlayingCard("J", PlayingCard.HEARTS, 11, 11));
-        testHand2.setHand(4, new PlayingCard("8", PlayingCard.HEARTS, 8, 8));
+        testHand2.setHand(2, new PlayingCard("Q", PlayingCard.CLUBS, 12, 12));
+        testHand2.setHand(3, new PlayingCard("9", PlayingCard.DIAMONDS, 9, 9));
+        testHand2.setHand(4, new PlayingCard("8", PlayingCard.DIAMONDS, 8, 8));
 
         System.out.println("Hand: " + testHand2.toString());
         System.out.println(testHand2.checkHand());
@@ -48,13 +48,13 @@ public class Main {
         }
 
 
-/*
+
         System.out.println("Hand: " + hand.toString());
         System.out.println(hand.checkHand());
         System.out.println("Hand value: " + hand.getGameValue());
         for (int i=0; i<5; i++){
             System.out.println(hand.getDiscardProbability(i));
         }
-*/
+
     }
 }
