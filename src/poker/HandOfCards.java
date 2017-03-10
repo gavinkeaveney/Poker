@@ -1,6 +1,5 @@
 package poker;
 
-import com.sun.org.apache.regexp.internal.RE;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +36,9 @@ public class HandOfCards {
     private boolean isTwoPair = false;
     private boolean isOnePair = false;
     private boolean isHighHand = false;
+
+    private boolean isBustedFlush = false;
+    private boolean isBrokenStraight = false;
 
     private int sumGameValue = 0;
     private int highCard = 0;
@@ -306,6 +308,7 @@ public class HandOfCards {
                 // no improvement likely/possible
 
                 return 0;
+
             } else if (isThreeOfAKind || isTwoPair || isOnePair) {
                 // return lower of non matching
                 // keep pairs
@@ -331,12 +334,15 @@ public class HandOfCards {
 
                     return 100 - (hand.get(cardPosition).getGameValue() * RETURN_WEIGHT);
                 }
+
             } else {
                 // high hand
                 // return based on card rank
                 // checks for other POTENTIAL hands (i.e. busted flush)
 
-                if (checkBustedFlush()) {
+                if (isBustedFlush()) {
+                    // System.out.println("isBustedFlush");
+
                     if (cardPosition == 0) { // require 3 checks, depending on card position
                         if ((hand.get(0).getSuit() != hand.get(1).getSuit() && hand.get(0).getSuit() != hand.get(4).getSuit())) {
                             return 100;
@@ -362,18 +368,42 @@ public class HandOfCards {
                     } else{
                         return 0;
                     }
-                } else {
 
+                } else if (isBrokenStraight()) {
+                    // System.out.println("isBrokenStraight");
+
+                    if (cardPosition == 0) { // require 3 checks, depending on card position
+                        if (hand.get(0).getGameValue() - hand.get(1).getGameValue() != 1 || hand.get(0).getGameValue() - hand.get(2).getGameValue() != 2
+                                && hand.get(0).getGameValue() - hand.get(3).getGameValue() > 3) {
+                            return 100-hand.get(cardPosition).getGameValue();
+
+                        } else {
+                            return 0;
+                        }
+
+                    } else if (cardPosition == 4) {
+                        if (hand.get(4).getGameValue() - hand.get(3).getGameValue() != -1 || hand.get(4).getGameValue() - hand.get(2).getGameValue() != -2
+                                && hand.get(4).getGameValue() - hand.get(1).getGameValue() > -3) {
+                            return 100-hand.get(cardPosition).getGameValue();
+
+                        } else {
+                            return 0;
+                        }
+                    } else{
+                        return 0;
+                    }
+                } else {
                     return 100 - (hand.get(cardPosition).getGameValue() * RETURN_WEIGHT);
                 }
             }
+
         } else {
 
             return 0;
         }
     }
 
-    private boolean checkBustedFlush() {
+    private boolean isBustedFlush() {
         int suitCount = 0;
 
         if (hand.get(0).getSuit() == hand.get(1).getSuit()) {
@@ -417,9 +447,26 @@ public class HandOfCards {
         }
     }
 
-    private boolean checkBustedStraight() {
-        // to be implemented
-        return false;
+    private boolean isBrokenStraight() {
+        int count = 0;
+
+        if (hand.get(0).getGameValue() - hand.get(1).getGameValue() < 5 || hand.get(4).getGameValue() - hand.get(3).getGameValue() > -5) {
+            count++;
+        }
+        if (hand.get(0).getGameValue() - hand.get(2).getGameValue() < 5 || hand.get(4).getGameValue() - hand.get(2).getGameValue() > -5) {
+            count++;
+        }
+        if (hand.get(0).getGameValue() - hand.get(3).getGameValue() < 5 || hand.get(4).getGameValue() - hand.get(1).getGameValue() > -5) {
+            count++;
+        }
+        if (hand.get(0).getGameValue() - hand.get(4).getGameValue() < 5 || hand.get(4).getGameValue() - hand.get(0).getGameValue() > -5) {
+            count++;
+        }
+        if (count == 3) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private int highHandValue() {
